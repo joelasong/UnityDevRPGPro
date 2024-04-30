@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CameraConcroller : MonoBehaviour
 {
+    public float zoomSpeed = 5;
+
     private Vector3 offset;
 
     private Transform playerTransform;
@@ -11,7 +13,7 @@ public class CameraConcroller : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;     // 实例化
         offset = transform.position - playerTransform.position;
     }
 
@@ -20,6 +22,10 @@ public class CameraConcroller : MonoBehaviour
     {
         transform.position = playerTransform.position + offset;
 
-        print(Input.GetAxis("Mouse ScrollWheel"));
+        float scroll = Input.GetAxis("Mouse ScrollWheel");  // 获取鼠标缩放的值
+
+        Camera.main.fieldOfView += scroll*zoomSpeed;
+
+        Camera.main.fieldOfView = Mathf.Clamp(Camera.main.fieldOfView, 37, 70);  // 限制相机的一个缩放的阈值
     }
 }

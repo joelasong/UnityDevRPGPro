@@ -24,7 +24,16 @@ public class PlayerMove : MonoBehaviour
             bool isCollide = Physics.Raycast(ray, out hit);
             if (isCollide)
             {
-                playerAgent.SetDestination(hit.point);
+                if (hit.collider.tag == "Ground")
+                {
+                    playerAgent.stoppingDistance = 0;
+                    playerAgent.SetDestination(hit.point);
+                }
+                else if (hit.collider.tag == "Interactable")
+                {
+                    // TODO
+                    hit.collider.GetComponent<InteractableObject>().OnClick(playerAgent);
+                }
             }
         }
     }
